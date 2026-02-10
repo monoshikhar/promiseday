@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Promise Day 💍</title>
+  <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Nunito:wght@300;400;600;700&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sky: #fff6f0;
+      --blush: #ffd6cc;
+      --peach: #ffb49a;
+      --rose: #e8736a;
+      --deep: #c0392b;
+      --cream: #fffaf5;
+      --ink: #3d2020;
+      --soft: #f7ece6;
+      --jar-body: rgba(200, 230, 255, 0.35);
+      --jar-shine: rgba(255,255,255,0.6);
+      --note1: #fff9c4;
+      --note2: #fce4ec;
+      --note3: #e8f5e9;
+      --note4: #e3f2fd;
+      --note5: #f3e5f5;
+      --note6: #fff3e0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--sky);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* soft radial bg glow */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(255,180,154,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,214,204,0.3) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── floating petals ── */
+    .petal {
+      position: fixed;
+      font-size: 1.4rem;
+      opacity: 0;
+      animation: petalFall linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes petalFall {
+      0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── wrapper ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 50px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── header ── */
+    .header { text-align: center; margin-bottom: 10px; animation: fadeDown .9s ease both; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.1rem;
+      color: var(--rose);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(3rem, 8vw, 5rem);
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #7a4a44;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .date-pill {
+      display: inline-block;
+      background: var(--blush);
+      color: var(--deep);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 5px 18px;
+      border-radius: 50px;
+      margin-top: 10px;
+    }
+
+    /* ── instruction ── */
+    .hint {
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.15rem;
+      color: var(--rose);
+      margin: 28px 0 10px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+
+    /* ══════════════════════════════
+       THE JAR
+    ══════════════════════════════ */
+    .jar-wrap {
+      position: relative;
+      width: 260px;
+      margin: 0 auto 10px;
+      animation: fadeUp .9s .3s ease both;
+      cursor: default;
+      flex-shrink: 0;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* jar SVG glass body */
+    .jar-svg { width: 100%; display: block; filter: drop-shadow(0 12px 28px rgba(200,100,80,.18)); }
+
+    /* notes peeking inside the jar */
+    .jar-notes-peek {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      align-items: flex-end;
+      pointer-events: none;
+    }
+
+    .peek-note {
+      width: 36px;
+      height: 44px;
+      border-radius: 4px 4px 2px 2px;
+      opacity: 0.85;
+      transform-origin: bottom center;
+      transition: opacity .4s;
+    }
+    .peek-note:nth-child(1){ background:var(--note1); transform:rotate(-8deg); }
+    .peek-note:nth-child(2){ background:var(--note3); transform:rotate(3deg); height:52px; }
+    .peek-note:nth-child(3){ background:var(--note2); transform:rotate(-4deg); }
+    .peek-note:nth-child(4){ background:var(--note4); transform:rotate(7deg); height:40px; }
+    .peek-note:nth-child(5){ background:var(--note5); transform:rotate(-6deg); height:48px; }
+    .peek-note:nth-child(6){ background:var(--note6); transform:rotate(4deg); }
+
+    /* remaining counter badge */
+    .jar-badge {
+      position: absolute;
+      top: 30px;
+      right: -10px;
+      background: var(--rose);
+      color: white;
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.1rem;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,.15);
+      transition: transform .3s;
+    }
+
+    /* ══════════════════════════════
+       PULL A NOTE BUTTON
+    ══════════════════════════════ */
+    .pull-btn {
+      margin: 18px auto 0;
+      display: block;
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: white;
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.3rem;
+      padding: 14px 42px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(232,115,106,.4);
+      transition: all .25s ease;
+      animation: fadeUp .9s .5s ease both;
+      letter-spacing: 1px;
+    }
+    .pull-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 28px rgba(232,115,106,.5); }
+    .pull-btn:active { transform: scale(.97); }
+    .pull-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    /* ══════════════════════════════
+       UNFOLDED NOTE (modal-ish)
+    ══════════════════════════════ */
+    .note-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(60,20,20,.35);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s;
+    }
+    .note-overlay.open { opacity: 1; pointer-events: all; }
+
+    .note-card {
+      position: relative;
+      max-width: 420px;
+      width: 100%;
+      border-radius: 18px;
+      padding: 44px 38px 38px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      transform: scale(.8) rotate(-4deg);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+      text-align: center;
+    }
+    .note-overlay.open .note-card { transform: scale(1) rotate(0deg); }
+
+    /* fold lines decoration */
+    .note-card::before,
+    .note-card::after {
+      content: '';
+      position: absolute;
+      background: rgba(0,0,0,.06);
+    }
+    .note-card::before { top: 50%; left: 0; right: 0; height: 1px; }
+    .note-card::after  { left: 50%; top: 0; bottom: 0; width: 1px; }
+
+    .note-number {
+      font-family: 'Gochi Hand', cursive;
+      font-size: .95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .55;
+      margin-bottom: 12px;
+    }
+
+    .note-emoji { font-size: 3.2rem; margin-bottom: 14px; display: block; }
+
+    .note-promise {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .note-sub {
+      font-size: 1rem;
+      color: #6b3a38;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .note-close {
+      margin-top: 28px;
+      background: transparent;
+      border: 2px solid currentColor;
+      border-radius: 50px;
+      padding: 9px 30px;
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--ink);
+    }
+    .note-close:hover { background: var(--ink); color: white; }
+
+    /* ══════════════════════════════
+       REVEALED NOTES GALLERY
+    ══════════════════════════════ */
+    .revealed-section {
+      width: 100%;
+      margin-top: 50px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .revealed-title {
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.3rem;
+      color: var(--rose);
+      text-align: center;
+      margin-bottom: 22px;
+      letter-spacing: 1px;
+    }
+
+    .revealed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .mini-note {
+      border-radius: 14px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+      animation: popIn .45s cubic-bezier(.34,1.56,.64,1) both;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .mini-note:hover { transform: translateY(-4px) rotate(1deg); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+
+    @keyframes popIn {
+      from { opacity:0; transform: scale(.6); }
+      to   { opacity:1; transform: scale(1); }
+    }
+
+    .mini-emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+
+    .mini-promise {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* ── all done message ── */
+    .all-done {
+      text-align: center;
+      padding: 40px 20px;
+      animation: fadeUp .7s ease both;
+    }
+    .all-done .big-emoji { font-size: 4rem; margin-bottom: 16px; display: block; }
+    .all-done h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.4rem;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .all-done p {
+      font-size: 1.1rem;
+      color: #7a4a44;
+      line-height: 1.8;
+    }
+    .restart-btn {
+      margin-top: 22px;
+      display: inline-block;
+      background: var(--blush);
+      color: var(--deep);
+      font-family: 'Gochi Hand', cursive;
+      font-size: 1.1rem;
+      padding: 11px 32px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .restart-btn:hover { background: var(--peach); transform: scale(1.04); }
+
+    /* responsive */
+    @media(max-width:480px){
+      .jar-wrap { width: 210px; }
+      .note-card { padding: 36px 24px 30px; }
+      .note-promise { font-size: 1.55rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- floating petals injected by JS -->
+
+<div class="page">
+
+  <div class="header">
+    <div class="eyebrow">Valentine's Week</div>
+    <h1>Promise Day</h1>
+    <p class="subtitle">Every promise is a little piece of my heart 💌</p>
+    <div class="date-pill">February 11, 2026</div>
+  </div>
+
+  <p class="hint">✨ Pull a note from the jar ✨</p>
+
+  <!-- JAR -->
+  <div class="jar-wrap">
+    <!-- badge -->
+    <div class="jar-badge" id="jarBadge">6</div>
+
+    <!-- SVG jar -->
+    <svg class="jar-svg" viewBox="0 0 260 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- lid -->
+      <rect x="60" y="18" width="140" height="30" rx="8" fill="#f0c8a0" stroke="#c8926a" stroke-width="2"/>
+      <rect x="70" y="14" width="120" height="14" rx="6" fill="#e8b890" stroke="#c8926a" stroke-width="1.5"/>
+      <!-- lid ribbon -->
+      <path d="M100 18 Q130 8 160 18" stroke="#e8736a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- jar body -->
+      <path d="M55 48 Q48 52 46 70 L38 240 Q37 265 65 268 L195 268 Q223 265 222 240 L214 70 Q212 52 205 48 Z"
+            fill="rgba(210,235,255,0.38)" stroke="rgba(180,210,240,0.8)" stroke-width="2"/>
+      <!-- shine left -->
+      <path d="M68 80 Q63 140 65 200" stroke="rgba(255,255,255,0.7)" stroke-width="6" stroke-linecap="round"/>
+      <!-- shine right small -->
+      <path d="M82 72 Q79 100 80 120" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
+      <!-- bottom reflection -->
+      <ellipse cx="130" cy="258" rx="55" ry="8" fill="rgba(255,255,255,0.18)"/>
+      <!-- heart deco on jar -->
+      <text x="104" y="180" font-size="40" opacity="0.18">💕</text>
+    </svg>
+
+    <!-- notes peeking -->
+    <div class="jar-notes-peek" id="notePeek">
+      <div class="peek-note"></div>
+      <div class="peek-note"></div>
+      <div class="peek-note"></div>
+      <div class="peek-note"></div>
+      <div class="peek-note"></div>
+      <div class="peek-note"></div>
+    </div>
+  </div>
+
+  <button class="pull-btn" id="pullBtn" onclick="pullNote()">Pull a Promise 🎀</button>
+
+  <!-- revealed gallery -->
+  <div class="revealed-section" id="revealedSection" style="display:none;">
+    <div class="revealed-title" id="revealedTitle">Promises so far 🌸</div>
+    <div class="revealed-grid" id="revealedGrid"></div>
+  </div>
+
+</div>
+
+<!-- NOTE OVERLAY -->
+<div class="note-overlay" id="noteOverlay">
+  <div class="note-card" id="noteCard">
+    <div class="note-number" id="noteNumber">Promise #1</div>
+    <span class="note-emoji" id="noteEmoji">💛</span>
+    <div class="note-promise" id="notePromise">I promise...</div>
+    <div class="note-sub" id="noteSub"></div>
+    <button class="note-close" onclick="closeNote()">Fold it back 🎀</button>
+  </div>
+</div>
+
+<script>
+  const promises = [
+    {
+      emoji: "☀️",
+      promise: "To be your sunshine on cloudy days",
+      sub: "Whenever the world feels heavy, I'll be right there to make you smile again.",
+      color: "var(--note1)"
+    },
+    {
+      emoji: "🤝",
+      promise: "To always be in your corner",
+      sub: "No matter what comes our way, we face it together. Always TEAM US.",
+      color: "var(--note2)"
+    },
+    {
+      emoji: "🌱",
+      promise: "To grow with you, not just beside you",
+      sub: "I promise to learn, change, and become better — hand in hand with you.",
+      color: "var(--note3)"
+    },
+    {
+      emoji: "👂",
+      promise: "To listen, really listen",
+      sub: "Not just with my ears, but with my whole heart. Every word you say matters to me.",
+      color: "var(--note4)"
+    },
+    {
+      emoji: "😂",
+      promise: "To keep you laughing",
+      sub: "Life is too short for too much seriousness. I promise a lifetime of silly moments.",
+      color: "var(--note5)"
+    },
+    {
+      emoji: "💛",
+      promise: "To choose you, every single day",
+      sub: "Not just once, but every morning I wake up — I will choose you, all over again.",
+      color: "var(--note6)"
+    }
+  ];
+
+  let remaining = [...promises];
+  let revealed  = [];
+  let current   = null;
+
+  /* ── petals ── */
+  const petalEmojis = ['🌸','🌺','🌷','🌼','✿','❀'];
+  for(let i = 0; i < 14; i++){
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalEmojis[i % petalEmojis.length];
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      animation-duration: ${8+Math.random()*10}s;
+      animation-delay: ${-Math.random()*12}s;
+      font-size: ${0.9+Math.random()*0.8}rem;
+      opacity: 0;
+    `;
+    document.body.appendChild(p);
+  }
+
+  /* ── pull note ── */
+  function pullNote(){
+    if(!remaining.length) return;
+    const idx  = Math.floor(Math.random() * remaining.length);
+    current    = remaining[idx];
+    remaining.splice(idx, 1);
+
+    // set card colors & content
+    const card = document.getElementById('noteCard');
+    card.style.background = current.color;
+    document.getElementById('noteNumber').textContent  = `Promise #${revealed.length + 1}`;
+    document.getElementById('noteEmoji').textContent   = current.emoji;
+    document.getElementById('notePromise').textContent = current.promise;
+    document.getElementById('noteSub').textContent     = current.sub;
+
+    // open overlay
+    document.getElementById('noteOverlay').classList.add('open');
+
+    // update peek notes & badge
+    updateJar();
+  }
+
+  function closeNote(){
+    document.getElementById('noteOverlay').classList.remove('open');
+    if(current){
+      revealed.push(current);
+      current = null;
+      renderRevealed();
+    }
+    if(!remaining.length){
+      document.getElementById('pullBtn').disabled = true;
+      document.getElementById('pullBtn').textContent = '🎉 All promises opened!';
+      showAllDone();
+    }
+  }
+
+  function updateJar(){
+    document.getElementById('jarBadge').textContent = remaining.length;
+    const peeks = document.querySelectorAll('.peek-note');
+    peeks.forEach((p, i) => {
+      p.style.opacity = i < remaining.length ? '0.85' : '0';
+    });
+  }
+
+  function renderRevealed(){
+    const sec  = document.getElementById('revealedSection');
+    const grid = document.getElementById('revealedGrid');
+    const title = document.getElementById('revealedTitle');
+
+    sec.style.display = 'block';
+    title.textContent = revealed.length === 1
+      ? '1 promise revealed 🌸'
+      : `${revealed.length} promises revealed 🌸`;
+
+    // add latest mini note
+    const p  = revealed[revealed.length - 1];
+    const mn = document.createElement('div');
+    mn.className = 'mini-note';
+    mn.style.background = p.color;
+    mn.style.animationDelay = '0s';
+    mn.innerHTML = `
+      <span class="mini-emoji">${p.emoji}</span>
+      <div class="mini-promise">${p.promise}</div>
+    `;
+    mn.onclick = () => reOpenNote(p);
+    grid.prepend(mn);
+  }
+
+  function reOpenNote(p){
+    const card = document.getElementById('noteCard');
+    card.style.background = p.color;
+    document.getElementById('noteNumber').textContent  = '';
+    document.getElementById('noteEmoji').textContent   = p.emoji;
+    document.getElementById('notePromise').textContent = p.promise;
+    document.getElementById('noteSub').textContent     = p.sub;
+    document.getElementById('noteOverlay').classList.add('open');
+    current = null; // don't re-add on close
+  }
+
+  function showAllDone(){
+    const sec = document.getElementById('revealedSection');
+    const done = document.createElement('div');
+    done.className = 'all-done';
+    done.innerHTML = `
+      <span class="big-emoji">🎉</span>
+      <h2>All promises are yours!</h2>
+      <p>Every single word in that jar was meant for you.<br>These aren't just promises — they're my heart, written down.</p>
+      <button class="restart-btn" onclick="restart()">Refill the jar 🫙</button>
+    `;
+    sec.appendChild(done);
+  }
+
+  function restart(){
+    remaining = [...promises];
+    revealed  = [];
+    document.getElementById('revealedGrid').innerHTML = '';
+    document.getElementById('revealedSection').style.display = 'none';
+    document.getElementById('pullBtn').disabled = false;
+    document.getElementById('pullBtn').textContent = 'Pull a Promise 🎀';
+    // remove all-done block if exists
+    document.querySelectorAll('.all-done').forEach(el => el.remove());
+    updateJar();
+  }
+
+  /* overlay click-outside closes */
+  document.getElementById('noteOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeNote();
+  });
+</script>
+</body>
+</html>
